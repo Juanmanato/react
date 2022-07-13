@@ -9,6 +9,7 @@ import {Row} from 'react-bootstrap'
 export default function Productos() {
 
   const [Productos, setProductos] = useState([])
+
   useEffect(() =>{
     const productos = async () => {
       try{
@@ -21,6 +22,8 @@ export default function Productos() {
     productos();
 
   },[])
+
+
         return (
           <>
           {Productos.length === 0 && <Loading/>}
@@ -29,7 +32,9 @@ export default function Productos() {
             id = {prodcuto.id} 
             nombre = {prodcuto.data().nombre} 
             precio = {prodcuto.data().precio} 
-            descripcion = {prodcuto.data().descripcion}/>).slice(0, 4)}
+            descripcion = {prodcuto.data().descripcion}
+            // imagen = {prodcuto.data().imagen}
+            />).slice(0, 8)}
           </Row>
           </>
     )

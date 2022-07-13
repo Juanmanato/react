@@ -2,8 +2,8 @@ import React from 'react'
 import { useParams, Link } from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import {traerProductoId} from '../service/productsService'
-import {Card, Button, Carousel} from 'react-bootstrap'
-import imagen from '../assets/imagen.jpg'
+import {Card, Button} from 'react-bootstrap'
+import LoginContext from '../Context/LoginContext'
 // import Loading from '../component/Loading'
 
 export default function Detalle() {
@@ -31,14 +31,17 @@ export default function Detalle() {
 
 
   return (
-    <div>
+    <LoginContext.Consumer>
+        {context => 
+        
+        <div>
         {/* {!productoId && <Loading/>} ver porque no muestra el spinner y como hacer un map con las imagenes del carousel */}
         <Card style={{ width: '35rem' }}>
-        <Carousel variant='dark'>
+        {/* <Carousel variant='dark'>
             <Carousel.Item>
                 <img
                 className="d-block w-100"
-                src={imagen}
+                src={productoId.imagen}
                 alt="First slide"
                 />
                
@@ -46,7 +49,7 @@ export default function Detalle() {
             <Carousel.Item>
                 <img
                 className="d-block w-100"
-                src={imagen}
+                src={productoId.imagen}
                 alt="Second slide"
                 />
 
@@ -55,13 +58,13 @@ export default function Detalle() {
             <Carousel.Item>
                 <img
                 className="d-block w-100"
-                src={imagen}
+                src={productoId.imagen}
                 alt="Third slide"
                 />
 
                
             </Carousel.Item>
-        </Carousel>
+        </Carousel> */}
         
         <Card.Body>
             <Card.Title>{productoId.nombre}</Card.Title>
@@ -71,12 +74,23 @@ export default function Detalle() {
             <Card.Text>
             {productoId.descripcion}
             </Card.Text>
+            {context.userLogin &&
+            <>
             <Button onClick={handleCompra} variant="primary">Comprar</Button>
             <p>{compra}</p>
+            </>
+            }
         </Card.Body>
+
+        {context.userLogin &&
         <Button as = {Link} to={'/producto/modificarProducto/'+ id}>Modificar</Button>
+            }
         </Card>
         
     </div>
+
+        }
+    </LoginContext.Consumer>
+    
   )
 }

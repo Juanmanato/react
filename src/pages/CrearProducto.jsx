@@ -1,30 +1,32 @@
 import {useState} from 'react'
 import {Form, Button} from 'react-bootstrap'
 import Input from '../component/Input'
-import InputArea from '../component/InputArea'
-import { crearProducto, subirImg } from '../service/productsService'
+import { crearProducto} from '../service/productsService'
+// import { subirImg } from '../service/productsService'
+import {useNavigate} from 'react-router-dom'
 
 function CrearProducto() {
   
-    const [producto, setProducto] = useState({nombre:'', precio:'', descripcion:'', imagen:'' })
-    const [image, setImage] = useState('')
+  const [producto, setProducto] = useState({nombre:'', precio:'', descripcion:'' })
+  // const [image, setImage] = useState() campo imagen:"" en setProducto
+  const navigate = useNavigate()
 
-    const datosProductos = (event) =>{
-      const name = event.target.name
-      const value = event.target.value
-      const file = event.target.file
-      setProducto({...producto, [name]:value})
-      setImage({...image, [file]:value})
-      console.log(file)
-      console.log('producto', producto)
+  const datosProductos = (event) =>{
+    const name = event.target.name
+    const value = event.target.value
+    setProducto({...producto, [name]:value})
+    // setImage({file })
+    // console.log('image', image)
+    console.log('producto', producto)
     }
 
     const guardarDatos = async (event) =>{
       try{
         event.preventDefault()
         const response = await crearProducto(producto)
-        const img = await subirImg(image)
-        return (response, img)
+        // const img = await subirImg(image)
+        navigate('/')
+        return (response )
       }catch(error){
         console.log(error)
       }
@@ -37,8 +39,8 @@ function CrearProducto() {
         <Form onSubmit={guardarDatos}>
             <Input label="Nombre" type="text" name="nombre" placeholder="nombre del producto" change ={datosProductos} />
             <Input label="Precio" type="number" name="precio" placeholder="precio del producto" change ={datosProductos} />
-            <InputArea label= "descripcion" type="textarea" name="descripcion" placeholder = "descripcion del producto" change={datosProductos} />
-            <Input label="Imagen" type="file" change ={datosProductos} />
+            <Input label= "Descripcion" type="textarea" name="descripcion" placeholder = "descripcion del producto" change={datosProductos} />
+            {/* <Input label="Imagen" type="file" name="imagen" change ={datosProductos} /> guardar imagen */}
             <Button type="submit">Guardar</Button>
         </Form>
     </div>

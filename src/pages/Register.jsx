@@ -3,9 +3,11 @@ import Input from '../component/Input'
 import {Form, Button} from 'react-bootstrap'
 import {useState} from 'react'
 import firebase from '../config/firebase'
+import {useNavigate} from 'react-router-dom'
 
 export default function Register() {
 
+  const navigate = useNavigate()
   const [registro, setRegistro] = useState({nombre: '', apellido: '', email: '', contraseña: ''})
 
   const datosRegistro = (event) =>{
@@ -27,7 +29,7 @@ export default function Register() {
            email:registro.email
          })
        }
-
+       navigate('/login')
     }catch(err){
       console.log(err)
     }

@@ -1,10 +1,11 @@
 import React, {useState} from 'react'
 import {Card, Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
+import LoginContext from '../Context/LoginContext'
 
 export default function Product(props) {
-    const{nombre, precio, descripcion, id} = props
-
+    const{nombre, precio, descripcion, id, } = props
+    // se saco en las props imagen
     const[compra, setCompra] = useState()
 
     const handleCompra = () =>{
@@ -12,8 +13,11 @@ export default function Product(props) {
     }
 
   return (
-    <Card style={{ width: '18rem' }}>
+    <LoginContext.Consumer>
+      {context=> 
+        <Card style={{ width: '18rem' }}>
         <Card.Body>
+        {/* <Card.Img variant="top" src={imagen} /> */}
             <Card.Title>{nombre}</Card.Title>
             <Card.Text>
             ${precio}
@@ -23,9 +27,16 @@ export default function Product(props) {
             </Card.Text>
         <Button as = {Link} to = {'/producto/' + id} variant="primary">Detalle</Button>
         <br/>
-        <Button onClick={handleCompra} variant="primary">Comprar</Button>
-        <p>{compra}</p>
+        {context.userLogin &&
+            <>
+            <Button onClick={handleCompra} variant="primary">Comprar</Button>
+            <p>{compra}</p>
+            </>
+            }
         </Card.Body>
     </Card>
+    }
+    
+    </LoginContext.Consumer>
   )
 }

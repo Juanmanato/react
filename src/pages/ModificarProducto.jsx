@@ -2,12 +2,13 @@ import {useState, useEffect} from 'react'
 import {useParams} from 'react-router-dom'
 import {Form, Button} from 'react-bootstrap'
 import Input from '../component/Input'
-import InputArea from '../component/InputArea'
 import {traerProductoId ,modificar, eliminar} from '../service/productsService'
 import Loading from "../component/Loading"
+import {useNavigate} from 'react-router-dom'
 
 function ModificarProducto() {
     const {id} = useParams()
+    const navigate = useNavigate()
     const [datos, setDatos] = useState({nombre:'', precio:'', descripcion:''})
     useEffect( ()=>{
         const producto = async ()=>{
@@ -31,6 +32,7 @@ function ModificarProducto() {
         try{
             event.preventDefault()
             const response = await modificar(id, datos)
+            navigate('/')
             return response
         }catch(e){
             console.log(e)
@@ -38,7 +40,9 @@ function ModificarProducto() {
 
     }
     const handleEliminar = async () => {
-        return await eliminar(id)
+        const borrar = await eliminar(id)
+        navigate('/')
+        return borrar
     }
 
   return (
@@ -52,7 +56,7 @@ function ModificarProducto() {
             <Form onSubmit = {guardarDatos}>
                 <Input label= "Nombre" type="text" name="nombre" value={datos.nombre } change={verDatos} />
                 <Input label= "Precio" type="number" name="precio" value={datos.precio} change={verDatos}/>
-                <InputArea label= "Descripcion"type="text" name="descripcion" value={datos.descripcion} change={verDatos}/>
+                <Input label= "Descripcion"type="textarea" name="descripcion" value={datos.descripcion} change={verDatos}/>
                 <Button type='submit'>Guardar</Button>
             </Form>
         </div>

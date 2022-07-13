@@ -1,6 +1,4 @@
 import firebase from "../config/firebase";
-
-
    export async function traerProductos () {
         const productos = await firebase.firestore().collection('productos').get()
         return productos.docs
@@ -17,6 +15,7 @@ import firebase from "../config/firebase";
             nombre:data.nombre,
             precio:data.precio,
             descripcion:data.descripcion,
+            imagen:data.imagen,
           })
         return addProducto
     }
@@ -31,13 +30,11 @@ import firebase from "../config/firebase";
         return deleteProdcuto
     }
 
-    export async function subirImg ( image ){
-        
-        const alamcenamiento =  await firebase.storage().ref("imgProductos/" + image )
-        .put()
+    // export async function subirImg ( image ){ 
+    //     const almacenamiento =  await firebase.storage().ref().child("imagenes/" + image)
+    //     .put(image)
      
-        console.log("archivo", alamcenamiento)
-    }
+    //     console.log("archivo", almacenamiento)
+    // }
 
-   
-
+  
